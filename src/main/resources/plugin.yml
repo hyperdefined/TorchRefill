@@ -3,3 +3,6 @@ version: ${project.version}
 main: lol.hyper.torchrefill.TorchRefill
 api-version: 1.16
 authors: [ hyperdefined ]
+commands:
+  tr:
+    description: Main command.

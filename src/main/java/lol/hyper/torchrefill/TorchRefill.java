@@ -17,14 +17,21 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public final class TorchRefill extends JavaPlugin implements Listener {
 
     public FileConfiguration config;
     public final File configFile = new File(getDataFolder(), "config.yml");
+    public ArrayList<UUID> turnedOff = new ArrayList<>();
+
+    public CommandTR commandTR;
 
     @Override
     public void onEnable() {
+        commandTR = new CommandTR(this);
+        this.getCommand("tr").setExecutor(commandTR);
         loadConfig(configFile);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
