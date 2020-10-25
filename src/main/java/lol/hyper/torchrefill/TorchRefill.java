@@ -3,9 +3,12 @@ package lol.hyper.torchrefill;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -13,16 +16,29 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class TorchRefill extends JavaPlugin implements Listener {
+
+    public FileConfiguration config;
+    public final File configFile = new File(getDataFolder(), "config.yml");
 
     @Override
     public void onEnable() {
+        loadConfig(configFile);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+    }
+
+    public void loadConfig(File file) {
+        if (!configFile.exists()) {
+            this.saveResource("config.yml", true);
+        }
+        config = YamlConfiguration.loadConfiguration(file);
     }
 
     @EventHandler
@@ -62,8 +78,11 @@ public final class TorchRefill extends JavaPlugin implements Listener {
                         // Set their old torch slow to air so it removes them.
                         // We can't do remove() because that removes ALL ItemStacks.
                         inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§aRefilled torches!"));
+                        if (config.getBoolean("play-sound")) {
+                            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                        }
+                        String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
                     }, 1);
                 }
             } else {
@@ -91,8 +110,11 @@ public final class TorchRefill extends JavaPlugin implements Listener {
                         // Set their old torch slow to air so it removes them.
                         // We can't do remove() because that removes ALL ItemStacks.
                         inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§aRefilled torches!"));
+                        if (config.getBoolean("play-sound")) {
+                            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                        }
+                        String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
                     }, 1);
                 }
             }

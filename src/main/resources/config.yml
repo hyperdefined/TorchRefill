@@ -1,0 +1,6 @@
+# Message to display above hotbar.
+# Leave empty quotes "" to disable.
+hotbar-message: "&aRefilled torches!"
+
+# Play a sound when it refills.
+play-sound: true
