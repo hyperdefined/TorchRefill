@@ -43,6 +43,10 @@ public final class TorchRefill extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+
         Block placed = event.getBlockPlaced();
 
         // Makes sure the player is placing a torch.
