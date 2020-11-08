@@ -58,16 +58,18 @@ public final class TorchRefill extends JavaPlugin implements Listener {
 
         // Makes sure the player is placing a torch.
         if (placed.getType() == Material.TORCH) {
-            // Cool, they are placing a torch. Get their current hotbar slot.
+            // Get where the torch is coming from.
             PlayerInventory inv = event.getPlayer().getInventory();
             int heldItemIndex = inv.getHeldItemSlot();
 
             // We check if you are holding a torch in your main hand.
             // This means you placed it with your offhand.
+            // This **probably** won't break if you are holding it in both hands, but who does that?
             if (inv.getItemInMainHand().getType() != Material.TORCH) {
                 // Get the torches from the offhand.
                 ItemStack offhandTorch = inv.getItemInOffHand();
                 // If they are out, then start to replace them.
+                // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
                 if (offhandTorch.getAmount() == 1) {
                     // I run this task later to allow time for the player to place the torch down.
                     Bukkit.getScheduler().runTaskLater(this, () -> {
@@ -99,6 +101,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
             } else {
                 // This is if the torch is on their main hotbar.
                 // If they are out, then start to replace them.
+                // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
                 ItemStack mainHandTorch = inv.getItemInMainHand();
                 if (mainHandTorch.getAmount() == 1) {
                     // I run this task later to allow time for the player to place the torch down.
