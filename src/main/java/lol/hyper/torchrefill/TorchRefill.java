@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -55,6 +56,11 @@ public final class TorchRefill extends JavaPlugin implements Listener {
 
         // Check if the player is placing a torch.
         if (event.getBlock().getType() != Material.TORCH) {
+            return;
+        }
+
+        Player player =  event.getPlayer();
+        if (turnedOff.contains(player.getUniqueId())) {
             return;
         }
 
