@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
@@ -24,7 +23,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
 
     public FileConfiguration config;
     public final File configFile = new File(getDataFolder(), "config.yml");
-    public ArrayList<UUID> turnedOff = new ArrayList<>();
+    public final ArrayList<UUID> turnedOff = new ArrayList<>();
 
     public CommandTR commandTR;
 
@@ -58,7 +57,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
         if (event.getBlock().getType() != Material.TORCH) {
             return;
         }
-        
+
         // Get where the torch is coming from.
         PlayerInventory inv = event.getPlayer().getInventory();
         int heldItemIndex = inv.getHeldItemSlot();
