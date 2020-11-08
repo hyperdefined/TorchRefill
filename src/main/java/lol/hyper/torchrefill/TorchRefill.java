@@ -54,83 +54,83 @@ public final class TorchRefill extends JavaPlugin implements Listener {
             return;
         }
 
-        Block placed = event.getBlockPlaced();
+        // Check if the player is placing a torch.
+        if (event.getBlock().getType() != Material.TORCH) {
+            return;
+        }
+        
+        // Get where the torch is coming from.
+        PlayerInventory inv = event.getPlayer().getInventory();
+        int heldItemIndex = inv.getHeldItemSlot();
 
-        // Makes sure the player is placing a torch.
-        if (placed.getType() == Material.TORCH) {
-            // Get where the torch is coming from.
-            PlayerInventory inv = event.getPlayer().getInventory();
-            int heldItemIndex = inv.getHeldItemSlot();
-
-            // We check if you are holding a torch in your main hand.
-            // This means you placed it with your offhand.
-            // This **probably** won't break if you are holding it in both hands, but who does that?
-            if (inv.getItemInMainHand().getType() != Material.TORCH) {
-                // Get the torches from the offhand.
-                ItemStack offhandTorch = inv.getItemInOffHand();
-                // If they are out, then start to replace them.
-                // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
-                if (offhandTorch.getAmount() == 1) {
-                    // I run this task later to allow time for the player to place the torch down.
-                    Bukkit.getScheduler().runTaskLater(this, () -> {
-                        int torchIndex = 0;
-                        // This will loop through the player's inventory and get where the next torch is.
-                        for (int i = 0; i < inv.getContents().length; i++) {
-                            ItemStack currentItem = inv.getContents()[i];
-                            if (currentItem != null) {
-                                if (currentItem.getType() == Material.TORCH) {
-                                    torchIndex = i;
-                                    break;
-                                }
+        // We check if you are holding a torch in your main hand.
+        // This means you placed it with your offhand.
+        // This **probably** won't break if you are holding it in both hands, but who does that?
+        if (inv.getItemInMainHand().getType() != Material.TORCH) {
+            // Get the torches from the offhand.
+            ItemStack offhandTorch = inv.getItemInOffHand();
+            // If they are out, then start to replace them.
+            // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
+            if (offhandTorch.getAmount() == 1) {
+                // I run this task later to allow time for the player to place the torch down.
+                Bukkit.getScheduler().runTaskLater(this, () -> {
+                    int torchIndex = 0;
+                    // This will loop through the player's inventory and get where the next torch is.
+                    for (int i = 0; i < inv.getContents().length; i++) {
+                        ItemStack currentItem = inv.getContents()[i];
+                        if (currentItem != null) {
+                            if (currentItem.getType() == Material.TORCH) {
+                                torchIndex = i;
+                                break;
                             }
                         }
-                        // Get torches from their inventory.
-                        ItemStack oldTorches = inv.getItem(torchIndex);
-                        // Set their hotbar selection to the torches from their inventory.
-                        inv.setItemInOffHand(oldTorches);
-                        // Set their old torch slow to air so it removes them.
-                        // We can't do remove() because that removes ALL ItemStacks.
-                        inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                        if (config.getBoolean("play-sound")) {
-                            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                        }
-                        String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    }, 1);
-                }
-            } else {
-                // This is if the torch is on their main hotbar.
-                // If they are out, then start to replace them.
-                // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
-                ItemStack mainHandTorch = inv.getItemInMainHand();
-                if (mainHandTorch.getAmount() == 1) {
-                    // I run this task later to allow time for the player to place the torch down.
-                    Bukkit.getScheduler().runTaskLater(this, () -> {
-                        // This will loop through the player's inventory and get where the next torch is.
-                        int torchIndex = 0;
-                        for (int i = 0; i < inv.getContents().length; i++) {
-                            ItemStack currentItem = inv.getContents()[i];
-                            if (currentItem != null) {
-                                if (currentItem.getType() == Material.TORCH) {
-                                    torchIndex = i;
-                                    break;
-                                }
+                    }
+                    // Get torches from their inventory.
+                    ItemStack oldTorches = inv.getItem(torchIndex);
+                    // Set their hotbar selection to the torches from their inventory.
+                    inv.setItemInOffHand(oldTorches);
+                    // Set their old torch slow to air so it removes them.
+                    // We can't do remove() because that removes ALL ItemStacks.
+                    inv.setItem(torchIndex, new ItemStack(Material.AIR));
+                    if (config.getBoolean("play-sound")) {
+                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                    }
+                    String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                }, 1);
+            }
+        } else {
+            // This is if the torch is on their main hotbar.
+            // If they are out, then start to replace them.
+            // We check 1 since this event will not show the player having 0. It will show them having 1 torch, which is their last one.
+            ItemStack mainHandTorch = inv.getItemInMainHand();
+            if (mainHandTorch.getAmount() == 1) {
+                // I run this task later to allow time for the player to place the torch down.
+                Bukkit.getScheduler().runTaskLater(this, () -> {
+                    // This will loop through the player's inventory and get where the next torch is.
+                    int torchIndex = 0;
+                    for (int i = 0; i < inv.getContents().length; i++) {
+                        ItemStack currentItem = inv.getContents()[i];
+                        if (currentItem != null) {
+                            if (currentItem.getType() == Material.TORCH) {
+                                torchIndex = i;
+                                break;
                             }
                         }
-                        // Get torches from their inventory.
-                        ItemStack oldTorches = inv.getItem(torchIndex);
-                        // Set their hotbar selection to the torches from their inventory.
-                        inv.setItem(heldItemIndex, oldTorches);
-                        // Set their old torch slow to air so it removes them.
-                        // We can't do remove() because that removes ALL ItemStacks.
-                        inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                        if (config.getBoolean("play-sound")) {
-                            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                        }
-                        String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    }, 1);
-                }
+                    }
+                    // Get torches from their inventory.
+                    ItemStack oldTorches = inv.getItem(torchIndex);
+                    // Set their hotbar selection to the torches from their inventory.
+                    inv.setItem(heldItemIndex, oldTorches);
+                    // Set their old torch slow to air so it removes them.
+                    // We can't do remove() because that removes ALL ItemStacks.
+                    inv.setItem(torchIndex, new ItemStack(Material.AIR));
+                    if (config.getBoolean("play-sound")) {
+                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                    }
+                    String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                }, 1);
             }
         }
     }
