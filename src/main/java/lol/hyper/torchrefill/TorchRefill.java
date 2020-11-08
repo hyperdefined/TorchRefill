@@ -95,7 +95,9 @@ public final class TorchRefill extends JavaPlugin implements Listener {
                         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
                     }
                     String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    if (message.length() != 0) {
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    }
                 }, 1);
             }
         } else {
@@ -128,7 +130,9 @@ public final class TorchRefill extends JavaPlugin implements Listener {
                         event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
                     }
                     String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    if (message.length() != 0) {
+                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    }
                 }, 1);
             }
         }
