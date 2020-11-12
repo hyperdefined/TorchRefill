@@ -19,6 +19,7 @@ package lol.hyper.torchrefill;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -51,6 +52,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
         this.getCommand("tr").setExecutor(commandTR);
         loadConfig(configFile);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
+        Metrics metrics = new Metrics(this, 9391);
     }
 
     @Override
