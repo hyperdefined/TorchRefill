@@ -3,4 +3,5 @@
 
 TorchRefill is a simple plugin that will automatically put torches into your hand when you run out.
 
-[Documentation and more info](https://hyper.lol/minecraft-plugins/torchrefill/).
+- [Documentation and more info](https://hyper.lol/minecraft-plugins/torchrefill/).
+- [SpigotMC Page](https://www.spigotmc.org/resources/torchrefill.85609/).
