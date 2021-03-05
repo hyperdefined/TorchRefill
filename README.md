@@ -3,5 +3,13 @@
 
 TorchRefill is a simple plugin that will automatically put torches into your hand when you run out.
 
-- [Documentation and more info](https://hyper.lol/minecraft-plugins/torchrefill/).
-- [SpigotMC Page](https://www.spigotmc.org/resources/torchrefill.85609/).
+## Features
+* When a player places their last torch, it will go through their inventory and move another stack into their hand.
+* Send a message above their hotbar on refill.
+* Play a sound on refill.
+
+## Documentation
+Visit the [wiki](https://github.com/hyperdefined/TorchRefill/wiki) for help.
+
+## License
+This plugin is released under GNU General Public License v3. See [LICENSE](https://github.com/hyperdefined/TorchRefill/blob/master/LICENSE).
