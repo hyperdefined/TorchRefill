@@ -42,7 +42,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
 
     public FileConfiguration config;
     public final File configFile = new File(getDataFolder(), "config.yml");
-    public final ArrayList<UUID> turnedOff = new ArrayList<>();
+    public final ArrayList < UUID > turnedOff = new ArrayList < > ();
 
     public CommandTR commandTR;
 
@@ -53,11 +53,6 @@ public final class TorchRefill extends JavaPlugin implements Listener {
         loadConfig(configFile);
         Bukkit.getServer().getPluginManager().registerEvents(this, this);
         Metrics metrics = new Metrics(this, 9391);
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 
     public void loadConfig(File file) {
@@ -78,7 +73,7 @@ public final class TorchRefill extends JavaPlugin implements Listener {
             return;
         }
 
-        Player player =  event.getPlayer();
+        Player player = event.getPlayer();
         if (turnedOff.contains(player.getUniqueId())) {
             return;
         }
@@ -98,31 +93,31 @@ public final class TorchRefill extends JavaPlugin implements Listener {
             if (offhandTorch.getAmount() == 1) {
                 // I run this task later to allow time for the player to place the torch down.
                 Bukkit.getScheduler().runTaskLater(this, () -> {
-                    int torchIndex = 0;
-                    // This will loop through the player's inventory and get where the next torch is.
-                    for (int i = 0; i < inv.getContents().length; i++) {
-                        ItemStack currentItem = inv.getContents()[i];
-                        if (currentItem != null) {
-                            if (currentItem.getType() == Material.TORCH) {
-                                torchIndex = i;
-                                break;
-                            }
+                int torchIndex = 0;
+                // This will loop through the player's inventory and get where the next torch is.
+                for (int i = 0; i < inv.getContents().length; i++) {
+                    ItemStack currentItem = inv.getContents()[i];
+                    if (currentItem != null) {
+                        if (currentItem.getType() == Material.TORCH) {
+                            torchIndex = i;
+                            break;
                         }
                     }
-                    // Get torches from their inventory.
-                    ItemStack oldTorches = inv.getItem(torchIndex);
-                    // Set their hotbar selection to the torches from their inventory.
-                    inv.setItemInOffHand(oldTorches);
-                    // Set their old torch slow to air so it removes them.
-                    // We can't do remove() because that removes ALL ItemStacks.
-                    inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                    if (config.getBoolean("play-sound")) {
-                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                    }
-                    String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                    if (message.length() != 0) {
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    }
+                }
+                // Get torches from their inventory.
+                ItemStack oldTorches = inv.getItem(torchIndex);
+                // Set their hotbar selection to the torches from their inventory.
+                inv.setItemInOffHand(oldTorches);
+                // Set their old torch slow to air so it removes them.
+                // We can't do remove() because that removes ALL ItemStacks.
+                inv.setItem(torchIndex, new ItemStack(Material.AIR));
+                if (config.getBoolean("play-sound")) {
+                    event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                }
+                String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                if (message.length() != 0) {
+                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                }
                 }, 1);
             }
         } else {
@@ -133,31 +128,31 @@ public final class TorchRefill extends JavaPlugin implements Listener {
             if (mainHandTorch.getAmount() == 1) {
                 // I run this task later to allow time for the player to place the torch down.
                 Bukkit.getScheduler().runTaskLater(this, () -> {
-                    // This will loop through the player's inventory and get where the next torch is.
-                    int torchIndex = 0;
-                    for (int i = 0; i < inv.getContents().length; i++) {
-                        ItemStack currentItem = inv.getContents()[i];
-                        if (currentItem != null) {
-                            if (currentItem.getType() == Material.TORCH) {
-                                torchIndex = i;
-                                break;
-                            }
+                        // This will loop through the player's inventory and get where the next torch is.
+                int torchIndex = 0;
+                for (int i = 0; i < inv.getContents().length; i++) {
+                    ItemStack currentItem = inv.getContents()[i];
+                    if (currentItem != null) {
+                        if (currentItem.getType() == Material.TORCH) {
+                            torchIndex = i;
+                            break;
                         }
                     }
-                    // Get torches from their inventory.
-                    ItemStack oldTorches = inv.getItem(torchIndex);
-                    // Set their hotbar selection to the torches from their inventory.
-                    inv.setItem(heldItemIndex, oldTorches);
-                    // Set their old torch slow to air so it removes them.
-                    // We can't do remove() because that removes ALL ItemStacks.
-                    inv.setItem(torchIndex, new ItemStack(Material.AIR));
-                    if (config.getBoolean("play-sound")) {
-                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
-                    }
-                    String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
-                    if (message.length() != 0) {
-                        event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    }
+                }
+                // Get torches from their inventory.
+                ItemStack oldTorches = inv.getItem(torchIndex);
+                // Set their hotbar selection to the torches from their inventory.
+                inv.setItem(heldItemIndex, oldTorches);
+                // Set their old torch slow to air so it removes them.
+                // We can't do remove() because that removes ALL ItemStacks.
+                inv.setItem(torchIndex, new ItemStack(Material.AIR));
+                if (config.getBoolean("play-sound")) {
+                    event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_CHICKEN_EGG, 0.7F, 1.0F);
+                }
+                String message = ChatColor.translateAlternateColorCodes('&', config.getString("hotbar-message"));
+                if (message.length() != 0) {
+                    event.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                }
                 }, 1);
             }
         }

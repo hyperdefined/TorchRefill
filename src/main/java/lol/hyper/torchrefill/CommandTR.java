@@ -31,7 +31,7 @@ public class CommandTR implements TabExecutor {
 
     private final TorchRefill torchRefill;
 
-    public CommandTR (TorchRefill torchRefill) {
+    public CommandTR(TorchRefill torchRefill) {
         this.torchRefill = torchRefill;
     }
 
@@ -62,7 +62,7 @@ public class CommandTR implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List < String > onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Arrays.asList("on", "off");
     }
 }
