@@ -38,21 +38,25 @@ public class CommandTR implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.GREEN + "TorchRefill version " + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.");
+            sender.sendMessage(ChatColor.GREEN + "TorchRefill version "
+                    + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.");
         } else if (args.length == 1) {
             if (args[0].equalsIgnoreCase("on")) {
                 if (sender instanceof ConsoleCommandSender) {
                     sender.sendMessage(ChatColor.RED + "You must be a player for this!");
                 } else {
-                    torchRefill.turnedOff.removeIf(Bukkit.getPlayerExact(sender.getName()).getUniqueId()::equals);
+                    torchRefill.turnedOff.removeIf(
+                            Bukkit.getPlayerExact(sender.getName()).getUniqueId()::equals);
                     sender.sendMessage(ChatColor.GREEN + "Torches will refill!");
                 }
             } else if (args[0].equalsIgnoreCase("off")) {
                 if (sender instanceof ConsoleCommandSender) {
                     sender.sendMessage(ChatColor.RED + "You must be a player for this!");
                 } else {
-                    if (!torchRefill.turnedOff.contains(Bukkit.getPlayerExact(sender.getName()).getUniqueId())) {
-                        torchRefill.turnedOff.add(Bukkit.getPlayerExact(sender.getName()).getUniqueId());
+                    if (!torchRefill.turnedOff.contains(
+                            Bukkit.getPlayerExact(sender.getName()).getUniqueId())) {
+                        torchRefill.turnedOff.add(
+                                Bukkit.getPlayerExact(sender.getName()).getUniqueId());
                     }
                     sender.sendMessage(ChatColor.GREEN + "Torches will not refill!");
                 }
@@ -62,7 +66,7 @@ public class CommandTR implements TabExecutor {
     }
 
     @Override
-    public List < String > onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Arrays.asList("on", "off");
     }
 }
