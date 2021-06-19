@@ -15,8 +15,9 @@
  * along with TorchRefill.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package lol.hyper.torchrefill;
+package lol.hyper.torchrefill.commands;
 
+import lol.hyper.torchrefill.TorchRefill;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
