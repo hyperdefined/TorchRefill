@@ -17,7 +17,7 @@ TorchRefill is a simple plugin that will automatically put torches into your han
 * Play a sound on refill.
 
 ## Documentation
-Visit the [wiki](https://github.com/hyperdefined/TorchRefill/wiki) for help.
+Visit the [wiki](https://docs.hyper.lol/torchrefill) for help.
 
 ## License
 This plugin is released under GNU General Public License v3. See [LICENSE](https://github.com/hyperdefined/TorchRefill/blob/master/LICENSE).
