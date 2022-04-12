@@ -1,6 +1,11 @@
 # Message to display above hotbar.
 # Leave empty quotes "" to disable.
-hotbar-message: "&aRefilled torches!"
+messages:
+  hotbar-message: "<green>Refilled torches!</green>"
+  refill-on: "<green>Torches will refill!</green>"
+  refill-off: "<green>Torches will no longer refill!</green>"
+errors:
+  must-be-player: "<red>You must be a player for this command!</red>"
 
 # Play a sound when it refills.
 play-sound: true

@@ -2,7 +2,13 @@ name: TorchRefill
 version: ${project.version}
 main: lol.hyper.torchrefill.TorchRefill
 api-version: 1.13
-authors: [ hyperdefined ]
+author: hyperdefined
+website: https://www.spigotmc.org/resources/torchrefill.85609/
+description: Automatically put torches into your hand!
 commands:
   tr:
     description: Main command.
+libraries:
+  - lol.hyper:github-release-api:1.0.1
+  - net.kyori:adventure-text-minimessage:4.10.1
+  - net.kyori:adventure-platform-bukkit:4.1.0

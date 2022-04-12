@@ -18,12 +18,13 @@
 package lol.hyper.torchrefill.commands;
 
 import lol.hyper.torchrefill.TorchRefill;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,43 +32,50 @@ import java.util.List;
 public class CommandTR implements TabExecutor {
 
     private final TorchRefill torchRefill;
+    private final Component aboutPlugin;
+    private final Component helpMessage;
 
     public CommandTR(TorchRefill torchRefill) {
         this.torchRefill = torchRefill;
+        this.aboutPlugin = torchRefill.miniMessage.deserialize("<green>TorchRefill version " + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.</green>");
+        this.helpMessage = torchRefill.miniMessage.deserialize("<green>Use /tr on/off to enable/disable torch refilling.</green>");
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            sender.sendMessage(ChatColor.GREEN + "TorchRefill version "
-                    + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.");
-        } else if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("on")) {
-                if (sender instanceof ConsoleCommandSender) {
-                    sender.sendMessage(ChatColor.RED + "You must be a player for this!");
-                } else {
-                    torchRefill.turnedOff.removeIf(
-                            Bukkit.getPlayerExact(sender.getName()).getUniqueId()::equals);
-                    sender.sendMessage(ChatColor.GREEN + "Torches will refill!");
+            torchRefill.getAdventure().sender(sender).sendMessage(aboutPlugin);
+            return true;
+        }
+
+        if (sender instanceof ConsoleCommandSender) {
+            torchRefill.getAdventure().sender(sender).sendMessage(torchRefill.getMessage("errors.must-be-player"));
+            return true;
+        }
+
+        Player player = (Player) sender;
+        switch (args[0]) {
+            case "on": {
+                torchRefill.turnedOff.removeIf(player.getUniqueId()::equals);
+                torchRefill.getAdventure().player(player).sendMessage(torchRefill.getMessage("messages.refill-on"));
+                return true;
+            }
+            case "off": {
+                if (!torchRefill.turnedOff.contains(player.getUniqueId())) {
+                    torchRefill.turnedOff.add(player.getUniqueId());
                 }
-            } else if (args[0].equalsIgnoreCase("off")) {
-                if (sender instanceof ConsoleCommandSender) {
-                    sender.sendMessage(ChatColor.RED + "You must be a player for this!");
-                } else {
-                    if (!torchRefill.turnedOff.contains(
-                            Bukkit.getPlayerExact(sender.getName()).getUniqueId())) {
-                        torchRefill.turnedOff.add(
-                                Bukkit.getPlayerExact(sender.getName()).getUniqueId());
-                    }
-                    sender.sendMessage(ChatColor.GREEN + "Torches will not refill!");
-                }
+                torchRefill.getAdventure().player(player).sendMessage(torchRefill.getMessage("messages.refill-off"));
+                return true;
+            }
+            default: {
+                torchRefill.getAdventure().player(player).sendMessage(helpMessage);
             }
         }
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
         return Arrays.asList("on", "off");
     }
 }
