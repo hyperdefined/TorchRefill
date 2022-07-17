@@ -19,6 +19,7 @@ package lol.hyper.torchrefill.commands;
 
 import lol.hyper.torchrefill.TorchRefill;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -32,19 +33,15 @@ import java.util.List;
 public class CommandTR implements TabExecutor {
 
     private final TorchRefill torchRefill;
-    private final Component aboutPlugin;
-    private final Component helpMessage;
 
     public CommandTR(TorchRefill torchRefill) {
         this.torchRefill = torchRefill;
-        this.aboutPlugin = torchRefill.miniMessage.deserialize("<green>TorchRefill version " + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.</green>");
-        this.helpMessage = torchRefill.miniMessage.deserialize("<green>Use /tr on/off to enable/disable torch refilling.</green>");
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
-            torchRefill.getAdventure().sender(sender).sendMessage(aboutPlugin);
+            torchRefill.getAdventure().sender(sender).sendMessage(Component.text("TorchRefill version " + torchRefill.getDescription().getVersion() + ". Created by hyperdefined.").color(NamedTextColor.GREEN));
             return true;
         }
 
@@ -68,7 +65,7 @@ public class CommandTR implements TabExecutor {
                 return true;
             }
             default: {
-                torchRefill.getAdventure().player(player).sendMessage(helpMessage);
+                torchRefill.getAdventure().player(player).sendMessage(Component.text("Use /tr on/off to enable/disable torch refilling.").color(NamedTextColor.GREEN));
             }
         }
         return true;
